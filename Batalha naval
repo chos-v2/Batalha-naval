@@ -1,0 +1,87 @@
+#include <stdio.h>
+
+// 0 = agua
+int inicializarTabuleiro(int tabuleiro[10][10]) {
+    for (int i = 0; i < 10; i++) {
+        for (int j = 0; j < 10; j++) {
+            tabuleiro[i][j] = 0;
+        }
+    }
+    return 0;
+}
+
+// Verifica se da pra posicionar horizontalente
+int PosicionarHorizontal(int tabuleiro[10][10], int linha, int coluna, int tamanhoNavio) {
+    if (coluna + tamanhoNavio > 10) return 0;
+    for (int i = 0; i < tamanhoNavio; i++) {
+        if (tabuleiro[linha][coluna + i] != 0) return 0;
+    }
+    return 1;
+}
+
+// Verifica se da pra posicionar verticalmente
+int PosicionarVertical(int tabuleiro[10][10], int linha, int coluna, int tamanhoNavio) {
+    if (linha + tamanhoNavio > 10) return 0;
+    for (int i = 0; i < tamanhoNavio; i++) {
+        if (tabuleiro[linha + i][coluna] != 0) return 0;
+    }
+    return 1;
+}
+
+// Posiciona navio horizontalmente
+int NavioHorizontal(int tabuleiro[10][10], int linha, int coluna, int tamanhoNavio) {
+    for (int i = 0; i < tamanhoNavio; i++) {
+        tabuleiro[linha][coluna + i] = 3;
+    }
+    return 0;
+}
+
+// Posiciona navio verticalmente
+int NavioVertical(int tabuleiro[10][10], int linha, int coluna, int tamanhoNavio) {
+    for (int i = 0; i < tamanhoNavio; i++) {
+        tabuleiro[linha + i][coluna] = 3;
+    }
+    return 0;
+}
+
+// Imprime o tabuleiro
+int imprimirTabuleiro(int tabuleiro[10][10]) {
+    printf("Tabuleiro Batalha Naval:\n\n");
+    for (int i = 0; i < 10; i++) {
+        for (int j = 0; j < 10; j++) {
+            printf("%d ", tabuleiro[i][j]);
+        }
+        printf("\n");
+    }
+    return 0;
+}
+
+int main() {
+    int tabuleiro[10][10];
+    int tamanhoNavio = 3;
+
+    inicializarTabuleiro(tabuleiro);
+
+    // Coordenadas dos navios
+    int linhaHorizontal = 2;
+    int colunaHorizontal = 1;
+    int linhaVertical = 5;
+    int colunaVertical = 7;
+
+    // Posiciona navios se possível
+    if (PosicionarHorizontal(tabuleiro, linhaHorizontal, colunaHorizontal, tamanhoNavio)) {
+        NavioHorizontal(tabuleiro, linhaHorizontal, colunaHorizontal, tamanhoNavio);
+    } else {
+        printf("Erro ao posicionar navio horizontal!\n");
+    }
+
+    if (PosicionarVertical(tabuleiro, linhaVertical, colunaVertical, tamanhoNavio)) {
+        NavioVertical(tabuleiro, linhaVertical, colunaVertical, tamanhoNavio);
+    } else {
+        printf("Erro ao posicionar navio vertical!\n");
+    }
+
+    imprimirTabuleiro(tabuleiro);
+
+    return 0;
+}
